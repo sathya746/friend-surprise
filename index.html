@@ -86,7 +86,7 @@ img {
   <p id="typing" class="typing"></p>
 
   <!-- IMAGE -->
-  <img id="img" src="C:\Users\sathy\OneDrive\Desktop\jeevitha  image\janani 8.jpg">
+  <img id="img" src="janani 8.jpg">
   <p id="memoryText" style="margin-top:5px;font-weight:bold;"></p>
 
   <button onclick="prev()">⬅️</button>
@@ -120,6 +120,11 @@ function unlock() {
   if (p === "suriya") {
     document.getElementById('lock').classList.add('hidden');
     document.getElementById('main').classList.remove('hidden');
+
+    const music = document.getElementById('music');
+    music.volume = 0.2;
+    music.play();   // ✅ works because user clicked
+
     start();
   } else {
     alert("Wrong password 😜");
@@ -222,23 +227,20 @@ function showVideo() {
 
 // START (with smooth music + sync)
 function start(){
-  const music = document.getElementById('music');
-  music.volume = 0.2; // soft background
-  music.play();
-
   typeWithMusic();
   showChat();
 }
 
+
 // Typing synced with music rhythm
 function typeWithMusic() {
+  const music = document.getElementById('music'); // ✅ FIX
+
   if (i < text.length) {
     document.getElementById('typing').innerHTML += text[i];
     i++;
 
-    const music = document.getElementById('music');
     const speed = 30 + Math.sin(music.currentTime * 2) * 20;
-
     setTimeout(typeWithMusic, speed);
   }
 }
