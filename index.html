@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Best Friend 💖</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(to right, #ff9a9e, #fad0c4);
+  
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;   /* FIX: align from top */
+  
+  min-height: 100vh;         /* FIX: allow scrolling */
+  padding: 20px 0;           /* spacing top & bottom */
+}
+
+.container {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 8px 5px;
+  border: none;
+  border-radius: 10px;
+  background: #ff6b81;
+  color: white;
+  cursor: pointer;
+}
+
+.hidden { display: none;
+}
+
+.typing {
+  border-right: 2px solid black;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.chat {
+  text-align: left;
+  margin-top: 15px;
+  background: #f1f1f1;
+  padding: 12px;
+  border-radius: 10px;
+}
+img {
+  width: 100%;
+  border-radius: 15px;
+  margin-top: 10px;
+}
+
+.msg {
+  background: #dcf8c6;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 10px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- PASSWORD SCREEN -->
+<div id="lock">
+  <h2>Enter Password 🔐</h2>
+  <input type="password" id="pass" placeholder="Hint: your bond">
+  <br><br>
+  <button onclick="unlock()">Enter</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main" class="hidden">
+  <h2>You Are Special 💖</h2>
+  <p id="typing" class="typing"></p>
+
+  <!-- IMAGE -->
+  <img id="img" src="C:\Users\sathy\OneDrive\Desktop\jeevitha  image\janani 8.jpg">
+  <p id="memoryText" style="margin-top:5px;font-weight:bold;"></p>
+
+  <button onclick="prev()">⬅️</button>
+  <button onclick="next()">➡️</button>
+
+  <!-- CHAT -->
+  <div class="chat" id="chat"></div>
+
+  <!-- VIDEO -->
+  <button onclick="showVideo()">Play Surprise 🎥</button>
+  <div id="videoBox" class="hidden">
+    <video width="100%" controls>
+      <source src="VID-20250413-WA0226.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+</div>
+<audio id="videoMusic">
+  <source src="_Kannamma_Rekka_Tamil_Ringtone_(by Fringster.com).mp3" type="audio/mpeg">
+</audio>
+<audio id="music" loop>
+  <source src="_Ennavendru_Solvathamma_Ringtone_(by Fringster.com).mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+// PASSWORD
+function unlock() {
+  const p = document.getElementById('pass').value;
+  if (p === "suriya") {
+    document.getElementById('lock').classList.add('hidden');
+    document.getElementById('main').classList.remove('hidden');
+    start();
+  } else {
+    alert("Wrong password 😜");
+  }
+}
+
+// TYPING
+const text = "You are not just my best friend... you're my home ❤️";
+let i = 0;
+function type() {
+  if (i < text.length) {
+    document.getElementById('typing').innerHTML += text[i];
+    i++;
+    setTimeout(type, 40);
+  }
+}
+
+// IMAGES + MEMORIES
+const images = [
+    "janani 2.jpg", 
+    "janani 3.jpg", 
+    "janani 1.jpg", 
+    "janani 4.jpg", 
+    "janani 6.jpg", 
+    "janani 5.jpg", 
+    "janani 7.jpg" 
+];
+const memories = [ 
+    "🌟 The day we go out and take some funniest images — everything have a good memories", 
+    "😂 My thoppa kutty takes a pictures with another Thoppakuttiesssss",
+    "💖 No matter what, you’re always there for me", 
+    "One of our best memories we cretaed at Vadapalani",
+      "onam ku neeyum naanum pannadha alaparai illa saree la irundhu chain varaikum but its cute and something special", 
+      "Two Pookies with Pokemon hat", "The final Birthday Celebration to my loveeeee" 
+];
+
+let idx = 0;
+
+function next(){ 
+  idx=(idx+1)%images.length; 
+  update(); 
+}
+
+function prev(){ 
+  idx=(idx-1+images.length)%images.length; 
+  update(); 
+}
+
+function update(){ 
+  document.getElementById('img').src = images[idx]; 
+  document.getElementById('memoryText').innerText = memories[idx];
+}
+
+// CHAT
+const msgs = [
+  "Hey...",
+  "Do you remember our first day?",
+  "That was the start of everything ❤️",
+  "You matter to me a lot"
+];
+let m = 0;
+function showChat() {
+  if (m < msgs.length) {
+    const div = document.createElement('div');
+    div.className = 'msg';
+    div.innerText = msgs[m];
+    document.getElementById('chat').appendChild(div);
+    m++;
+    setTimeout(showChat, 1500);
+  }
+}
+
+// VIDEO
+function showVideo() {
+  const videoBox = document.getElementById('videoBox');
+  const video = document.querySelector('video');
+  const bgMusic = document.getElementById('music');
+  const videoMusic = document.getElementById('videoMusic');
+
+  // Show video
+  videoBox.classList.remove('hidden');
+
+  // Stop background music
+  bgMusic.pause();
+
+  // Start video music
+  videoMusic.currentTime = 0;
+  videoMusic.play();
+
+  // Play video
+  video.currentTime = 0;
+  video.play();
+
+  // When video ends → stop video music & resume background music
+  video.onended = function () {
+    videoMusic.pause();
+    bgMusic.play();
+  };
+}
+
+// START (with smooth music + sync)
+function start(){
+  const music = document.getElementById('music');
+  music.volume = 0.2; // soft background
+  music.play();
+
+  typeWithMusic();
+  showChat();
+}
+
+// Typing synced with music rhythm
+function typeWithMusic() {
+  if (i < text.length) {
+    document.getElementById('typing').innerHTML += text[i];
+    i++;
+
+    const music = document.getElementById('music');
+    const speed = 30 + Math.sin(music.currentTime * 2) * 20;
+
+    setTimeout(typeWithMusic, speed);
+  }
+}
+
+// SYNC typing speed with music (simple effect)
+function typeWithMusic() {
+  if (i < text.length) {
+    document.getElementById('typing').innerHTML += text[i];
+    i++;
+
+    // dynamic typing speed (slightly varies with music time)
+    const speed = 30 + Math.sin(music.currentTime) * 20;
+    setTimeout(typeWithMusic, speed);
+  }
+}
+
+// Optional: pause music when typing ends
+function checkEnd(){
+  if(i >= text.length){
+    setTimeout(()=>{
+      music.volume = 0.1; // fade softer
+    },1000);
+  }
+}
+
+</script>
+
+</body>
+</html>
